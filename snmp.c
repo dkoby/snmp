@@ -1018,10 +1018,12 @@ static const struct snmp_var_bind_t * _findVarBind(struct snmp_context_t *contex
                     break;
                 if (bind->haveOID == NULL)
                     break;
-                if (bind->haveOID(bind, context->inputOID) == SNMP_ERROR_STATUS_NO_SUCH_NAME
-                        && context->getNext)
+                if (bind->haveOID(bind, context->inputOID) == SNMP_ERROR_STATUS_NO_SUCH_NAME)
                 {
-                    continue;
+                    if (context->getNext)
+                        continue;
+                    else
+                        return NULL;
                 } else {
                     break;
                 }
@@ -1038,7 +1040,14 @@ static const struct snmp_var_bind_t * _findVarBind(struct snmp_context_t *contex
                 }
             } else {
                 if (_oid_compare((uint32_t*)bind->oid, context->inputOID) == 0)
+                {
+                    if (bind->haveOID != NULL &&
+                        bind->haveOID(bind, context->inputOID) == SNMP_ERROR_STATUS_NO_SUCH_NAME)
+                    {
+                        return NULL;
+                    }
                     break;
+                }
             }
         }
     }
