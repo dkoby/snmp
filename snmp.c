@@ -1,9 +1,5 @@
 /*
- * Jaroj 2018-2020.
- * Auxtoro estas Dmitrij Kobilin. 
  *
- * Nenia rajtigilo ekzistas.
- * Faru bone, ne faru malbone.
  */
 #include <stdint.h>
 #include <string.h>
@@ -781,7 +777,6 @@ noresponse:
     return 0;
 }
 
-static int _oid_compare(uint32_t *oid1, uint32_t *oid2);
 static void _oid_incr(uint32_t *oid, const uint32_t *listOID,
         const uint32_t *indexMin, const uint32_t *indexMax);
 static int _getInputVarBind(struct snmp_context_t *context,
@@ -981,7 +976,7 @@ static const struct snmp_var_bind_t * _findVarBind(struct snmp_context_t *contex
 #endif
                 if (context->getNext) {
                     int cmp;
-                    cmp = _oid_compare(context->inputOID, indexMin); 
+                    cmp = snmp_oid_compare(context->inputOID, indexMin); 
                     if (cmp < 0)
                     {
                         snmp_oid_copy(context->inputOID, indexMin);
@@ -991,7 +986,7 @@ static const struct snmp_var_bind_t * _findVarBind(struct snmp_context_t *contex
 #endif
                         match = 1;
                     } else {
-                        cmp = _oid_compare(context->inputOID, indexMax); 
+                        cmp = snmp_oid_compare(context->inputOID, indexMax); 
                         if (cmp < 0)
                         {
 #if 0
@@ -1007,8 +1002,8 @@ static const struct snmp_var_bind_t * _findVarBind(struct snmp_context_t *contex
                         }
                     }
                 } else {
-                    if (_oid_compare(context->inputOID, indexMin) >= 0 &&
-                        _oid_compare(context->inputOID, indexMax) <= 0)
+                    if (snmp_oid_compare(context->inputOID, indexMin) >= 0 &&
+                        snmp_oid_compare(context->inputOID, indexMax) <= 0)
                     {
                         match = 1;
                     }
@@ -1033,13 +1028,18 @@ static const struct snmp_var_bind_t * _findVarBind(struct snmp_context_t *contex
         } else {
             if (context->getNext)
             {
-                if (_oid_compare((uint32_t*)bind->oid, context->inputOID) > 0)
+                if (snmp_oid_compare((uint32_t*)bind->oid, context->inputOID) > 0)
                 {
+                    if (bind->haveOID != NULL &&
+                        bind->haveOID(bind, context->inputOID) == SNMP_ERROR_STATUS_NO_SUCH_NAME)
+                    {
+                        continue;
+                    }
                     snmp_oid_copy(context->inputOID, (uint32_t*)bind->oid);
                     break;
                 }
             } else {
-                if (_oid_compare((uint32_t*)bind->oid, context->inputOID) == 0)
+                if (snmp_oid_compare((uint32_t*)bind->oid, context->inputOID) == 0)
                 {
                     if (bind->haveOID != NULL &&
                         bind->haveOID(bind, context->inputOID) == SNMP_ERROR_STATUS_NO_SUCH_NAME)
@@ -1214,7 +1214,7 @@ static int _encodeVarBind(struct snmp_context_t *context, struct snmp_var_bind_t
  *     An integer less than, equal to, or greater than zero if oid1,
  *     respectively, to be less than, to match, or be greater than oid2.
  */
-static int _oid_compare(uint32_t *oid1, uint32_t *oid2)
+int snmp_oid_compare(uint32_t *oid1, uint32_t *oid2)
 {
     while (1)
     {
@@ -1273,7 +1273,7 @@ static void _oid_incr(uint32_t *oid, const uint32_t *listOID,
     oidLength = snmp_oid_length(oid);
 #if 0
     if (oidLength < snmp_oid_length((uint32_t*)indexMin) ||
-        _oid_compare(oid, (uint32_t*)indexMin) < 0)
+        snmp_oid_compare(oid, (uint32_t*)indexMin) < 0)
     {
         snmp_oid_copy(oid, (uint32_t*)listOID);
         snmp_oid_copy(&oid[oidLength], (uint32_t*)&indexMin[oidLength]);
@@ -1351,7 +1351,7 @@ size_t snmp_make_trap(
         /* snmpTrapOID */
         {
             int error;
-            static const uint32_t snmpTrapOID[] = {1, 3, 6, 1, 6, 3, 1, 1, 4, 1, 0, ASN_OID_SENTINEL};
+            static CONST_OID uint32_t snmpTrapOID[] = {1, 3, 6, 1, 6, 3, 1, 1, 4, 1, 0, ASN_OID_SENTINEL};
             struct snmp_var_bind_t bind;
 
             memset(&bind, 0, sizeof(struct snmp_var_bind_t));

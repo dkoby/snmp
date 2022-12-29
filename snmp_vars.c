@@ -52,12 +52,12 @@
 #define                 DOT_TRAP_SOURCE                                                  DOT_TRAPS, 100
 #define                     DOT_TEST_TRAP                                                              DOT_TRAP_SOURCE, 1
 
-static const uint32_t iso_org_dod_internet_mgmt_mib2_system_sysDescr[]    = {1, 3, 6, 1, 2, 1, 1, 1, 0, ASN_OID_SENTINEL};
-static const uint32_t iso_org_dod_internet_mgmt_mib2_system_sysObjectID[] = {1, 3, 6, 1, 2, 1, 1, 2, 0, ASN_OID_SENTINEL};
-static const uint32_t iso_org_dod_internet_mgmt_mib2_system_sysUpTime  [] = {1, 3, 6, 1, 2, 1, 1, 3, 0, ASN_OID_SENTINEL};
-static const uint32_t dot_md11ruPlus4S[]                                  = {DOT_MD11RU_PLUS_4S, ASN_OID_SENTINEL};
-static const uint32_t dot_npAddress[]                                     = {DOT_NP_ADDRESS, ASN_OID_SENTINEL};
-       const uint32_t dot_test_trap[]                                     = {DOT_AUAU_TRAP, ASN_OID_SENTINEL};
+static CONST_OID uint32_t iso_org_dod_internet_mgmt_mib2_system_sysDescr[]    = {1, 3, 6, 1, 2, 1, 1, 1, 0, ASN_OID_SENTINEL};
+static CONST_OID uint32_t iso_org_dod_internet_mgmt_mib2_system_sysObjectID[] = {1, 3, 6, 1, 2, 1, 1, 2, 0, ASN_OID_SENTINEL};
+static CONST_OID uint32_t iso_org_dod_internet_mgmt_mib2_system_sysUpTime  [] = {1, 3, 6, 1, 2, 1, 1, 3, 0, ASN_OID_SENTINEL};
+static CONST_OID uint32_t dot_md11ruPlus4S[]                                  = {DOT_MD11RU_PLUS_4S, ASN_OID_SENTINEL};
+static CONST_OID uint32_t dot_npAddress[]                                     = {DOT_NP_ADDRESS, ASN_OID_SENTINEL};
+       CONST_OID uint32_t dot_test_trap[]                                     = {DOT_AUAU_TRAP, ASN_OID_SENTINEL};
 
 #define _GE_PORT_NUM    (GE_COUNT + GE_COUNT_BI16)
 #define _FE_PORT_NUM    (FE_COUNT + FE_COUNT_BI16)

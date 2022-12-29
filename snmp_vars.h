@@ -11,8 +11,14 @@
 #include <stdint.h>
 #include "asn.h"
 
+#if 0
+    #define CONST_OID const
+#else
+    #define CONST_OID
+#endif
+
 struct snmp_var_bind_t {
-    const uint32_t *oid;
+    CONST_OID uint32_t *oid;
     const uint32_t *indexMin;
     const uint32_t *indexMax;
     int (*haveOID)(const struct snmp_var_bind_t *bind, uint32_t *inputOID);
@@ -38,7 +44,7 @@ struct snmp_trapExtArg_t {
 
 TRAP_EVENT_FUNC_DEF(snmpTrapTest);
 
-extern const uint32_t dot_test_trap[];
+extern CONST_OID uint32_t dot_test_trap[];
 
 #endif
 

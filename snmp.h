@@ -57,6 +57,7 @@ size_t snmp_process_packet(struct snmp_context_t *context,
         uint8_t *inBuf, size_t ilen, uint8_t *outBuf, size_t maxOutLen);
 int snmp_oid_length(uint32_t *oid);
 void snmp_oid_copy(uint32_t *dst, uint32_t *src);
+int snmp_oid_compare(uint32_t *oid1, uint32_t *oid2);
 
 struct snmp_trap_oid_bind_t {
     uint32_t oid[ASN_OID_MAX_LEN + 1];
