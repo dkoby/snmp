@@ -1,5 +1,5 @@
 /*
- * Jaroj 2018-2020.
+ * Jaroj 2018-2023.
  * Auxtoro estas Dmitrij Kobilin. 
  *
  * Nenia rajtigilo ekzistas.

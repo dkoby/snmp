@@ -1,5 +1,9 @@
 /*
+ * Jaroj 2018-2023.
+ * Auxtoro estas Dmitrij Kobilin. 
  *
+ * Nenia rajtigilo ekzistas.
+ * Faru bone, ne faru malbone.
  */
 #include <stdint.h>
 #include <string.h>
